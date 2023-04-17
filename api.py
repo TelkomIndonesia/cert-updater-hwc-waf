@@ -73,10 +73,16 @@ response_cert = response2.json()
 certificate_id = response_cert['items'][0]['certificateid']
 
 url_modify_cert = "https://waf."+projectName+".myhuaweicloud.com/v1/"+projectId+"/waf/certificate/"+certificate_id+"?enterprise_project_id="+enterpriseProjectId
-with open(cert_path, 'r') as file:
+with open(cert_path, 'rb') as file:
     cert = file.read()
-with open(key_path, 'r') as file:
+    if cert.endswith(b'\n'):
+        cert = cert[:-1]
+    cert = cert.decode()
+with open(key_path, 'rb') as file:
     key = file.read()
+    if key.endswith(b'\n'):
+        key = key[:-1]
+    key = key.decode()
 
 print(url_modify_cert)
 payload_modify_cert = {
