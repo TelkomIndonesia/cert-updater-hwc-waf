@@ -93,5 +93,5 @@ payload_modify_cert = {
 
 
 print("Modify Certificate "+certificate_id)
-response_modify = requests.post(url_modify_cert, headers=headers_auth, json=payload_modify_cert)
+response_modify = requests.put(url_modify_cert, headers=headers_auth, json=payload_modify_cert)
 print(response_modify.json())
