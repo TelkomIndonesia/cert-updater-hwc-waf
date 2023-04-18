@@ -7,7 +7,7 @@ inotifywait -m -r $BASE_FOLDER -e moved_to |
             DIR=$(basename "$path")
             HOST_ID="${DIR%%_*}"
             CERT_NAME="${DIR#*_}"
-            CERT_FOLDER="$BASE_FOLDER/$CERT_NAME"
+            CERT_FOLDER="$BASE_FOLDER/$DIR"
             CERT_PATH="$CERT_FOLDER/tls.crt"
             KEY_PATH="$CERT_FOLDER/tls.key"
             python3 "./api.py" --iam-domain $IAM_DOMAIN --iam-user $IAM_USER --iam-password $IAM_PASSWORD --project-name $PROJECT_NAME --project-id $PROJECT_ID --enterprise-project-id $ENTERPRISE_PROJECT_ID --cert-name $CERT_NAME --cert-path $CERT_PATH --key-path $KEY_PATH --host-id $HOST_ID
