@@ -5,8 +5,8 @@ BASE_FOLDER=${BASE_FOLDER:-$DEFAULT_BASE_FOLDER}
 inotifywait -m -r $BASE_FOLDER -e moved_to |
     while read path action file; do
             DIR=$(basename "$path")
-            HOST_ID="${input_str%%_*}"
-            CERT_NAME="${input_str#*_}"
+            HOST_ID="${DIR%%_*}"
+            CERT_NAME="${DIR#*_}"
             CERT_FOLDER="$BASE_FOLDER/$CERT_NAME"
             CERT_PATH="$CERT_FOLDER/tls.crt"
             KEY_PATH="$CERT_FOLDER/tls.key"
