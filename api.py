@@ -3,6 +3,9 @@
 import json
 import requests
 import argparse
+import time
+
+timestamp = int(time.time())
 
 parser = argparse.ArgumentParser(description='Modify certificate in Huawei WAF')
 parser.add_argument('--iam-domain', type=str, required=True,
@@ -23,6 +26,8 @@ parser.add_argument('--cert-path', type=str, required=True,
                     help='Path to the certificate file')
 parser.add_argument('--key-path', type=str, required=True,
                     help='Path to the private key file')
+parser.add_argument('--host-id', type=str, required=True,
+                    help='Host Id')
 args = parser.parse_args()
 
 # Set variables for the request
@@ -33,9 +38,10 @@ IAMPassword = args.iam_password
 projectName = args.project_name
 projectId = args.project_id
 enterpriseProjectId = args.enterprise_project_id
-cert_name = args.cert_name
+cert_name = args.cert_name+"_"+str(timestamp)
 cert_path = args.cert_path
 key_path = args.key_path
+host_id = args.host_id
 
 payload = {
     "auth": {
@@ -62,17 +68,7 @@ headers = {"Content-Type": "application/json"}
 response = requests.post(url, headers=headers, json=payload)
 token = response.headers.get("X-Subject-Token")
 
-
-url_get_list_cert = "https://waf."+projectName+".myhuaweicloud.com/v1/"+projectId+"/waf/certificate?enterprise_project_id="+enterpriseProjectId+"&name="+cert_name
-headers_auth = {
-    "X-Auth-Token": token,
-    "Content-Type": "application/json"
-    }
-response2 = requests.get(url_get_list_cert, headers=headers_auth)
-response_cert = response2.json()
-certificate_id = response_cert['items'][0]['certificateid']
-
-url_modify_cert = "https://waf."+projectName+".myhuaweicloud.com/v1/"+projectId+"/waf/certificate/"+certificate_id+"?enterprise_project_id="+enterpriseProjectId
+url_upload_cert = "https://waf."+projectName+".myhuaweicloud.com/v1/"+projectId+"/waf/certificate?enterprise_project_id="+enterpriseProjectId
 with open(cert_path, 'rb') as file:
     cert = file.read()
     if cert.endswith(b'\n'):
@@ -84,14 +80,25 @@ with open(key_path, 'rb') as file:
         key = key[:-1]
     key = key.decode()
 
-print(url_modify_cert)
-payload_modify_cert = {
+payload_upload_cert = {
     "name": cert_name,
     "content" : cert,
     "key" : key
 }
 
+headers_auth = {
+    "X-Auth-Token": token,
+    "Content-Type": "application/json"
+    }
 
-print("Modify Certificate "+certificate_id)
-response_modify = requests.put(url_modify_cert, headers=headers_auth, json=payload_modify_cert)
-print(response_modify.json())
+print("Uploaded Certificate "+cert_name)
+response_upload= requests.post(url_upload_cert, headers=headers_auth, json=payload_upload_cert)
+certificate_id = response_upload.json()["id"]
+print(certificate_id)
+
+url_apply_cert = "https://waf."+projectName+".myhuaweicloud.com/v1/"+projectId+"/waf/certificate/"+certificate_id+"/apply-to-hosts?enterprise_project_id="+enterpriseProjectId
+payload_apply_host = {
+  "cloud_host_ids" : [ host_id ]
+}
+response_apply= requests.post(url_apply_cert, headers=headers_auth, json=payload_apply_host)
+print(response_apply.json())
