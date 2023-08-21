@@ -1,0 +1,4 @@
+vira-tls-certificate:
+  - enterprise_id: 77117367-3171-4ea0-a3b8-66d6c73e5336
+    project_id: d1579ca190b94846ab731fa7bddf3996
+    hosts: [2f3d0080df004a2899864791072ea5df,49de3b154f104631af3f6d4f9ddd96fb,29aba7d218794f59b1bfbcc74bf23179,b74f672bb64e41b4a8df4c8bb7f1e8a6]
