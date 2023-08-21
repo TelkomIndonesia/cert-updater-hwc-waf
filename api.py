@@ -257,8 +257,6 @@ if __name__ == "__main__":
     IAMUser = args.iam_user
     IAMPassword = args.iam_password
     projectName = args.project_name
-    projectId = args.project_id
-    enterpriseProjectId = args.enterprise_project_id
     cert_name = args.cert_name 
     cert_path = args.cert_path
     key_path = args.key_path
