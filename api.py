@@ -246,8 +246,6 @@ if __name__ == "__main__":
     parser.add_argument('--iam-user', type=str, required=True, help='IAM user name')
     parser.add_argument('--iam-password', type=str, required=True, help='IAM user password')
     parser.add_argument('--project-name', type=str, required=True, help='Name of the project')
-    parser.add_argument('--project-id', type=str, required=True, help='Project ID')
-    parser.add_argument('--enterprise-project-id', type=str, required=True, help='Enterprise Project ID')
     parser.add_argument('--cert-name', type=str, required=True, help='Name of the certificate to modify')
     parser.add_argument('--cert-path', type=str, required=True, help='Path to the certificate file')
     parser.add_argument('--key-path', type=str, required=True, help='Path to the private key file')
