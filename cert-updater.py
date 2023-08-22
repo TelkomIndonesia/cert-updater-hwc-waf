@@ -6,7 +6,7 @@ import time
 import yaml
 
 
-def get_token(iam_domain, iam_user, iam_password, project_name, url):
+def get_token(iam_domain, iam_user, iam_password, region_id, url):
     payload = {
         "auth": {
             "identity": {
@@ -19,7 +19,7 @@ def get_token(iam_domain, iam_user, iam_password, project_name, url):
                     }
                 },
             },
-            "scope": {"project": {"name": project_name}},
+            "scope": {"project": {"name": region_id}},
         }
     }
 
@@ -83,7 +83,7 @@ def upload_certificate(
 
 
 def apply_certificate(
-    project_name,
+    region_id,
     project_id,
     enterprise_project_id,
     certificate_id,
@@ -91,7 +91,7 @@ def apply_certificate(
     token,
 ):
     # Construct the URL.
-    url_apply_cert = f"https://waf.{project_name}.myhuaweicloud.com/v1/{project_id}/waf/certificate/{certificate_id}/apply-to-hosts?enterprise_project_id={enterprise_project_id}"
+    url_apply_cert = f"https://waf.{region_id}.myhuaweicloud.com/v1/{project_id}/waf/certificate/{certificate_id}/apply-to-hosts?enterprise_project_id={enterprise_project_id}"
 
     # Prepare the payload and headers.
     payload_apply_host = {"cloud_host_ids": [host_id]}

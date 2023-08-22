@@ -13,7 +13,7 @@ inotifywait -m -r "$BASE_FOLDER" -e moved_to |
                         --iam-domain "$IAM_DOMAIN" \
                         --iam-user "$IAM_USER" \
                         --iam-password "$IAM_PASSWORD" \
-                        --region-id "$PROJECT_NAME" \
+                        --region-id "$REGION_ID" \
                         --cert-name "$CERT_NAME" \
                         --cert-path "$CERT_PATH" \
                         --key-path "$KEY_PATH"
